@@ -6,6 +6,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import {Actions} from 'react-native-router-flux';
 
+
 import GeoLoc from './SendCoordinates';
 
 
@@ -302,9 +303,11 @@ class mapViewScreen extends React.Component{
 
                 <Text>-----------------------------</Text>
 
-                <Button onPress={this.complaint}>
-                    Make Complaint
-                </Button>
+
+                <Button
+                    title="Make Complaint"
+                    onPress={()=> this.complaint()}
+                />
 
             </View>
         );

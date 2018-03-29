@@ -5,6 +5,9 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Routes from './src/Routes';
+import {Actions} from 'react-native-router-flux';
+import {Spinner} from "./src/common";
+import Main from "./src/pages/main";
 
 const config = {
     apiKey: "AIzaSyBdzRPM76JAq74d2pgSIAN_bM7dHNLZo94",
@@ -19,11 +22,28 @@ const config = {
 firebase.initializeApp(config);
 export default class App extends React.Component {
 
-    componentWillMount() {
+    state = {loggedIn: null};
 
+    componentWillMount() {
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                this.setState({loggedIn:true});
+                Actions.main();
+            }
+            else{
+                this.setState({loggedIn:false});
+            }
+        });
     }
 
+
     render() {
+        if(this.state.loggedIn === null){
+            return <Spinner size = "large"/>
+        }
+        // if (this.state.loggedIn){
+        //
+        // }
         return (
             <View style={styles.container}>
                 <Routes />

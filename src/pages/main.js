@@ -3,6 +3,7 @@ import {View, Text, ToastAndroid, StyleSheet} from 'react-native';
 
 import {Actions} from 'react-native-router-flux';
 import {Button} from "../common";
+import firebase from 'firebase';
 
 export default class Main extends React.Component{
 
@@ -18,8 +19,8 @@ export default class Main extends React.Component{
                     Activity1
                 </Button>
 
-                <Button>
-                    Activity2
+                <Button onPress={this.signout}>
+                    Sign Out
                 </Button>
 
                 <Button onPress={this.map}>
@@ -29,6 +30,11 @@ export default class Main extends React.Component{
             </View>
         )
 
+    }
+
+    signout(){
+        firebase.auth().signOut();
+        Actions.login();
     }
 
     enable(){

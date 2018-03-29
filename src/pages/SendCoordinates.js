@@ -7,7 +7,7 @@ import {ImagePicker} from 'expo';
 
 
 class GeoLoc extends Component{
-    state = {msg:'', image: null,};
+    state = {msg:'', image: null, userId:null };
     constructor(props){
         super(props);
 
@@ -16,6 +16,7 @@ class GeoLoc extends Component{
             longitude: null,
             error: null,
         };
+        this.setState({userId: firebase.auth().currentUser});
     }
 
     onButtonPress = async () => {
@@ -40,10 +41,15 @@ class GeoLoc extends Component{
               // ToastAndroid.show('Successful!', ToastAndroid.SHORT);
           }
 
-        const {msg, latitude, longitude, image} = this.state;
+        const {msg, latitude, longitude, image, userId} = this.state;
         const {currentUser} = firebase.auth();
+
         firebase.database().ref(`${currentUser.uid}`)
-            .push({msg, latitude, longitude, image});
+            .push({msg, latitude, longitude, image, userId});
+        // firebase.database().ref().child('danger_coordinates')
+        //     .push({latitude, longitude, msg, image, userId});
+
+        // console.log({userId, msg});
 
         ToastAndroid.show('Successful!', ToastAndroid.SHORT);
     };
@@ -111,10 +117,6 @@ class GeoLoc extends Component{
                 </CardSection>
 
                 <CardSection>
-                    <Button
-                        title="Upload Image"
-                        // onPress={this._takePhoto}
-                    />
 
                     <Button onPress={this.onButtonPress.bind(this)}>
                         Send data
